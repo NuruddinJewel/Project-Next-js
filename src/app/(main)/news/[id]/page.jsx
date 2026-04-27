@@ -22,8 +22,28 @@
 //     );
 // };
 
+
+// Alternative
 // export default NewsDetailsPage;
+import { getNewsDetailsById } from "@/lib/data";
 import Image from "next/image";
+
+// export const metadata = {
+//     title: "BD Dragon News - Details ",
+//     description: "BD Dragon News",
+// };
+
+export const generateMetadata = async ({ params }) => {
+    const { id } = await params;
+
+    const newsArray = await getNewsDetailsById(id);
+    const news = newsArray[0];
+    return {
+        title: news.title,
+        description: news.details
+    }
+}
+
 
 async function getNewsById(id) {
     const res = await fetch(`https://openapi.programming-hero.com/api/news/${id}`);
@@ -34,7 +54,8 @@ async function getNewsById(id) {
 
 const NewsDetailsPage = async ({ params }) => {
     const { id } = await params;
-    const news = await getNewsById(id);
+    const newsArray = await getNewsDetailsById(id);
+    const news = newsArray[0]
 
     return (
         <div className="container mx-auto my-10 max-w-3xl px-4">
@@ -64,3 +85,4 @@ const NewsDetailsPage = async ({ params }) => {
 };
 
 export default NewsDetailsPage;
+
