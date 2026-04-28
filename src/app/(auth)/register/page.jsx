@@ -13,12 +13,14 @@
 'use client'
 import { authClient } from '@/lib/auth-client';
 // import Link from 'next/link';
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 const RegisterPage = () => {
     // Using React Hook Form
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
+    const [isShowPassword, setisShowPassword] = useState(false)
     const handleRegister = async (data) => {
         // e.preventDefault();
         // const email = e.target.email.value;
@@ -119,15 +121,38 @@ const RegisterPage = () => {
                     </div>
 
                     {/* Password Field */}
-                    <div className="flex flex-col gap-2">
+                    {/* <div className="flex flex-col gap-2">
                         <label className="font-bold text-gray-700 ml-1">Password</label>
                         <input
-                            type="password"
+                            type={isShowPassword ? "text" : "password"}
                             // name="password"
                             className="w-full p-4 bg-gray-100 rounded-lg outline-none focus:ring-1 focus:ring-gray-300 transition-all"
                             placeholder="Enter your password"
                             {...register("password", { required: "Password Required !!" })}
                         />
+                        <span
+                            onClick={() => setisShowPassword(!isShowPassword)}
+                            className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500 hover:text-gray-700"
+                        >
+                            {isShowPassword ? <FaEye /> : <FaEyeSlash />}
+                        </span>
+                    </div> */}
+                    <div className="flex flex-col gap-2">
+                        <label className="font-bold text-gray-700 ml-1">Password</label>
+                        <div className="relative">
+                            <input
+                                type={isShowPassword ? "text" : "password"}
+                                className="w-full p-4 bg-gray-100 rounded-lg outline-none focus:ring-1 focus:ring-gray-300 transition-all"
+                                placeholder="Enter your password"
+                                {...register("password", { required: "Password Required !!" })}
+                            />
+                            <span
+                                onClick={() => setisShowPassword(!isShowPassword)}
+                                className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer text-gray-500 hover:text-gray-700"
+                            >
+                                {isShowPassword ? <FaEye /> : <FaEyeSlash />}
+                            </span>
+                        </div>
                     </div>
                     {errors.password && <p className='text-red-500'>{errors.password.message}</p>}
                     {/* Login Button */}
